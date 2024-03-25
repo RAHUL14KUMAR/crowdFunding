@@ -7,11 +7,74 @@ function Navbar() {
     const [{accounts},dispatch]=useStateValue();
     const [isMenuOpen,setIsMenuOpen]=useState(false)
 
+    const [walletAddress,setWalletAddress] = useState('');
+    const [isConnected,setIsConnected] = useState(false);
+
+    useEffect(()=>{
+        if(typeof window !== 'undefined'){
+          if(window.ethereum){
+            window.ethereum.on('accountsChanged', handleAccountChange);
+          }
+        }
+    
+        return()=>{
+          if(typeof window !== 'undefined'){
+            if(window.ethereum){
+              window.ethereum.removeListener('accountsChanged', handleAccountChange);
+            }
+          }
+        }
+      
+      })
+    
+      function handleAccountChange(accounts,account){
+        if(accounts.length>0 && account!==accounts[0]){
+          setWalletAddress(accounts[0]);
+          dispatch({
+            type:'SET_ACCOUNT',
+            account:accounts[0]
+          })
+          setIsConnected(true);
+        }else{
+          setWalletAddress('');
+          setIsConnected(false);
+        }
+    }
+
+    let  provider=typeof window !== 'undefined' && window.ethereum;
+
     const connect=async(e)=>{
         e.preventDefault();
+        try{
+            if(!provider){
+              alert('please install metamask');
+              return;
+            }
+      
+            const accounts = await provider.request({ method: 'eth_requestAccounts' });
+      
+            if(accounts.length){
+              setWalletAddress(accounts[0]);
+              dispatch({
+                type:'SET_ACCOUNT',
+                account:accounts[0]
+              })
+              setIsConnected(true);
+            }
+      
+            dispatch({
+              type:'SET_PROVIDER',
+              providers:provider
+            }) 
+
+        }catch(error){
+            console.log(error)
+        }
     }
 
     const menuList=["white paper","Project","Donations","Members"]
+
+    console.log("address",walletAddress);
   return (
     <div className='backgroundMain'>
       <div className='px-4 py-4 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8'>
