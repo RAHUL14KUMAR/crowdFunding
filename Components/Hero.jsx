@@ -4,7 +4,7 @@ import React, { useState } from 'react'
 function Hero({titleData,createCampaign}) {
   const [campaign,setCampaign]=useState({
     title:"",
-    description:"",
+    decription:"",
     amount:"",
     deadline:""
   })
@@ -21,10 +21,10 @@ function Hero({titleData,createCampaign}) {
   return (
     <div className='relative'>
       <span className='coverLine'></span>
-      <img
+      {/* <img
       src="https://images.pexels.com/photos/3228766/pexels-photo-3228766.jpeg?auto=compress&amp;cs=tinysrgb&amp;dpr=2&amp;h=750&amp;w=1260" className='absolute inset-0 object-cover w-full h-full'
       alt=""
-      />
+      /> */}
       <div className='relative bg-opacity-75 backgroundMain'>
         <svg
           className='absolute inset-x-0 bottom-0 text-white'
@@ -75,8 +75,8 @@ function Hero({titleData,createCampaign}) {
                   <label htmlFor="description" className='inline-block mb-1 font-medium'>Description</label>
                   <input onChange={(e)=>setCampaign({
                     ...campaign,
-                    description:e.target.value
-                  })} type="text" name="description" placeholder="Enter description" className='flex-grow w-full h-12 px-4 mb-2 transition duration-200 bg-white border border-gray-300 rounded shadow-sm appearance-none focus:border-deep-purple-accent-400 focus:outline-none focus:shadow-outine' id="description"required />
+                    decription:e.target.value
+                  })} type="text" name="decription" placeholder="Enter description" className='flex-grow w-full h-12 px-4 mb-2 transition duration-200 bg-white border border-gray-300 rounded shadow-sm appearance-none focus:border-deep-purple-accent-400 focus:outline-none focus:shadow-outine' id="decription"required />
                 </div>
 
                 <div className='mb-1 sm:mb-2'>

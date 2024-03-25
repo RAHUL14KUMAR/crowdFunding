@@ -65,7 +65,7 @@ function Navbar() {
             dispatch({
               type:'SET_PROVIDER',
               providers:provider
-            }) 
+            })
 
         }catch(error){
             console.log(error)

@@ -4,8 +4,8 @@ import React from 'react'
 import { useStateValue } from '@/stateProvider';
 
 function Card({allCompaign,setOpenModal,setDonate,title}) {
-  const [{get},dispatch]=useStateValue();
-  const card=get;
+  const [{user},dispatch]=useStateValue();
+  const card=user;
   console.log("card all comapign",card);
 
   const daysLeft=(deadline)=>{
