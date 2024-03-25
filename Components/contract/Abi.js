@@ -189,4 +189,4 @@ export const ABI= [
     }
   ]
 
-  export const ADDRESS=" 0xBEDb26fBcF4cF073D70E214E9EB224b29Fce96E0"
+  export const ADDRESS ="0xBEDb26fBcF4cF073D70E214E9EB224b29Fce96E0"

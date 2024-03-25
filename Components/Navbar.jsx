@@ -74,7 +74,7 @@ function Navbar() {
 
     const menuList=["white paper","Project","Donations","Members"]
 
-    console.log("address",walletAddress);
+    // console.log("address",walletAddress);
   return (
     <div className='backgroundMain'>
       <div className='px-4 py-4 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8'>
