@@ -48,7 +48,7 @@ function Popup({setOpenModal,donate,donateFunction,getDonations}) {
               type="text" name="amount" placeholder="Enter amount" className='flex-grow w-full h-12 px-4 mb-2 transition duration-200 bg-white border border-gray-300 rounded shadow-sm appearance-none focus:border-deep-purple-accent-400 focus:outline-none focus:shadow-outine' id="amount"required />
               {
                 allDonationData?.map((item,i)=>(
-                  <p className='my-4 text-slate-500 text-lg leading-relaxed'>{i+1}:{item.donation} {""}
+                  <p className='my-4 text-slate-500 text-lg leading-relaxed' key={i+1}>{i+1}:{item.donation} {""}
                     {item.donator.slice(0,35)}
                   </p>
                 )
