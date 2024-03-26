@@ -5,7 +5,9 @@ export const initialState={
     accounts:"0x048a33def606db075f4cbc2f2ed7d313af8e1267",
     contracts:{},
     get:[],
-    user:[]
+    user:[],
+    id:0,
+    title:""
 }
 
 const reducer=(state,action) => {
@@ -33,6 +35,18 @@ const reducer=(state,action) => {
             return{
                 ...state,
                 get:action.get
+            }
+
+        case "SET_DONATE":
+            return{
+                ...state,
+                id:action.donate
+            }
+
+        case "SET_TITLE":
+            return{
+                ...state,
+                title:action.title
             }
 
         case "SET_USER_COMPAIGN":

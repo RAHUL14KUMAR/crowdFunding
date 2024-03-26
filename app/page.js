@@ -6,17 +6,19 @@ import Web3 from "web3";
 import { useStateValue } from '../stateProvider';
 
 function page() {
-  const [{providers,accounts},dispatch]=useStateValue();
+  const [{providers,accounts,id},dispatch]=useStateValue();
   const [walletAddress,setWalletAddress] = useState('');
   const [getAll,setAll]=useState([])
+  const [userall,setAuserAll]=useState([])
   
 
   const titleData="Crowd Funding Contract";
 
   useEffect(()=>{
     connect()
-    // allcampaign()
-  },[getAll])
+    allcampaign()
+    usercampaign()
+  },[userall,getAll])
   let  provider=typeof window !== 'undefined' && window.ethereum;
 
     const connect=async()=>{
@@ -49,7 +51,7 @@ function page() {
 
   //donate popup model
   const [openModal,setOpenModal]=useState(false);
-  const [donateComapign,setDonateCampign]=useState();
+  const [donateComapign,setDonateCampign]=useState(titleData);
 
   // creating the instances to get the contract
   async function getContract(){
@@ -67,23 +69,22 @@ function page() {
 
   // after getting the instance of the contract using get() function we can get all the methods of the contract using contract.methods
   const createCampaign=async(compaign)=>{
-    console.log("compaign",compaign)
+    // console.log("compaign",compaign)
     const {title,decription,amount,deadline}=compaign
     const contract=await get();
-    console.log("object",Web3.utils.toWei(amount, 'ether'))
+    // console.log("object",Web3.utils.toWei(amount, 'ether'))
     try{
       const transaction=await contract.methods.createCampaign(
         accounts,
         title,
         decription,
         Web3.utils.toWei(amount, 'ether'),
-        // ethers.utils.parseUnits(amount,18),
         new Date(deadline).getTime()
       ).send({from:accounts});
 
       // await transaction.wait();
 
-      console.log("contract create successfully",transaction);
+      // console.log("contract create successfully",transaction);
 
     }catch(error){
       console.log("cannnot reach to the contract methods call")
@@ -104,7 +105,7 @@ function page() {
     
       pid:i
     }))
-    console.log(parsed)
+    // console.log(parsed)
     dispatch({
       type:'GET_ALL_COMPAIGN',
       get:parsed
@@ -116,8 +117,8 @@ function page() {
   const usercampaign=async()=>{
     const res= await allcampaign();
 
-    console.log("result",res)
-    console.log(accounts)
+    // console.log("result",res)
+    // console.log(accounts)
     const a=res.filter(item=>
       item.owner.toLowerCase().toString()==accounts
     )
@@ -125,27 +126,30 @@ function page() {
       type:'SET_USER_COMPAIGN',
       user:a
     })
+    setAuserAll(a);
     return a;
   }
 
-  const donate=async(pId,amount)=>{
+  const donate=async(id,amount)=>{
     const contract=await get();
 
     const valueInWei = Web3.utils.toWei(amount, 'ether');
 
-    const res = await contract.methods.donateToCompaign(pId, {
+    const res = await contract.methods.donateToCompaign(id, {
       value: valueInWei
     }).send({ from: accounts });
 
-    await res.wait();
+    // await res.wait();
     console.log("donate",res)
     return res;
   }
 
-  const getDonations=async(pId)=>{
+  const getDonations=async()=>{
+    console.log("id",id)
+
     const contract=await get();
 
-    const donations=await contract.methods.getDonaters(pId);
+    const donations=await contract.methods.getDonaters(id).call();
 
     const lengths=donations[0].length;
     const parsedDonations=[];
@@ -156,30 +160,23 @@ function page() {
         donation:Web3.utils.fromWei(donations[1][i],"ether")
       })
     }
+    console.log("parsed donations",parsedDonations)
 
     return parsedDonations;
   }
-  console.log(getAll)
   return (
     <>
-      <Hero titleData={titleData} createCampaign={createCampaign}/>
-
-      
+      <Hero titleData={titleData} createCampaign={createCampaign}/> 
 
       <Card 
       title="All Listed Campaign"
-      allcampaign={allcampaign}
       setOpenModal={setOpenModal}
-      setDonate={setDonateCampign}
       />
 
       <CardT
       title="Your Created Compaign"
-      allCompaign={usercampaign}
       setOpenModal={setOpenModal}
-      setDonate={setDonateCampign}
       />
-      <div onClick={(allcampaign,usercampaign)} className='text-black'>hello</div>
 
       {
         openModal && (

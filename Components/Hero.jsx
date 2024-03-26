@@ -12,7 +12,7 @@ function Hero({titleData,createCampaign}) {
     e.preventDefault();
     try{
       const data=await createCampaign(campaign)
-      console.log("add camapiangn",data);
+      // console.log("add camapiangn",data);
       return data;
     }catch(error){
       console.log(error)
