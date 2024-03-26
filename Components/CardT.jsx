@@ -61,9 +61,9 @@ function Card({setOpenModal,title}) {
                 <p className='font-semibold'>
                   Target:{item.target} ETH
                 </p>
-                <p className='font-semibold'>
+                {/* <p className='font-semibold'>
                   Raised:{item.raised} ETH
-                </p>
+                </p> */}
               </div>
             </div>
 
